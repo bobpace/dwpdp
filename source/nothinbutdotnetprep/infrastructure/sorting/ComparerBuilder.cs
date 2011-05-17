@@ -21,23 +21,22 @@ namespace nothinbutdotnetprep.infrastructure.sorting
     public ComparerBuilder<ItemThatWillBeSorted> then_by_descending<PropertyType>(PropertyAccessor<ItemThatWillBeSorted, PropertyType> accessor)
       where PropertyType : IComparable<PropertyType>
     {
-      return
-        new ComparerBuilder<ItemThatWillBeSorted>(
-          new ReverseComparer<ItemThatWillBeSorted>(chain_with(new ComparableComparer<PropertyType>(), accessor)));
+      initial = chain_with(new ReverseComparer<PropertyType>(new ComparableComparer<PropertyType>()), accessor);
+      return this;
     }
 
     public ComparerBuilder<ItemThatWillBeSorted> then_by<PropertyType>(PropertyAccessor<ItemThatWillBeSorted, PropertyType> accessor)
       where PropertyType : IComparable<PropertyType>
     {
-      return new ComparerBuilder<ItemThatWillBeSorted>(chain_with(new ComparableComparer<PropertyType>(), accessor));
+      initial = chain_with(new ComparableComparer<PropertyType>(), accessor);
+      return this;
     }
 
     public ComparerBuilder<ItemThatWillBeSorted> then_by<PropertyType>(PropertyAccessor<ItemThatWillBeSorted, PropertyType> accessor,
       params PropertyType[] fixed_order)
     {
-      return
-        new ComparerBuilder<ItemThatWillBeSorted>(
-          chain_with(new FixedOrderComparer<PropertyType>(fixed_order),accessor));
+      initial = chain_with(new FixedOrderComparer<PropertyType>(fixed_order), accessor);
+      return this;
     }
 
     IComparer<ItemThatWillBeSorted> chain_with<PropertyType>(IComparer<PropertyType> comparer,
