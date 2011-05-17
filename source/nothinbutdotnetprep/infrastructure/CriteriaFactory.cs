@@ -18,7 +18,7 @@ namespace nothinbutdotnetprep.infrastructure
 
     public IMatchAn<Item> equal_to_any(params PropertyType[] values)
     {
-      return new AnonymousCriteria<Item>(x => new List<PropertyType>(values).Contains(accessor(x)));
+      return AnonymousCriteria<Item>.Create(x => new List<PropertyType>(values).Contains(accessor(x)));
     }
 
     public IMatchAn<Item> not_equal_to(PropertyType value)

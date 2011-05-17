@@ -4,7 +4,7 @@ namespace nothinbutdotnetprep.infrastructure
   {
     Matches<ItemToMatch> condition;
 
-    public AnonymousCriteria(Matches<ItemToMatch> condition)
+    private AnonymousCriteria(Matches<ItemToMatch> condition)
     {
       this.condition = condition;
     }
@@ -12,6 +12,11 @@ namespace nothinbutdotnetprep.infrastructure
     public bool matches(ItemToMatch item)
     {
       return condition(item);
+    }
+
+    public static AnonymousCriteria<ItemToMatch> Create(Matches<ItemToMatch> condition)
+    {
+      return new AnonymousCriteria<ItemToMatch>(condition);
     }
   }
 }
