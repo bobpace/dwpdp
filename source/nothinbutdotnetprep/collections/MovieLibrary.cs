@@ -31,26 +31,6 @@ namespace nothinbutdotnetprep.collections
       return movies.Contains(movie);
     }
 
-    public IEnumerable<Movie> sort_all_movies_by_date_published_descending()
-    {
-      return sortBy((x, y) => x.date_published.CompareTo(y.date_published)*-1);
-    }
-
-    public IEnumerable<Movie> sort_all_movies_by_date_published_ascending()
-    {
-      return sortBy((x, y) => x.date_published.CompareTo(y.date_published));
-    }
-
-    public IEnumerable<Movie> sort_all_movies_by_title_descending
-    {
-      get { return sortBy((x, y) => x.title.CompareTo(y.title)*-1); }
-    }
-
-    public IEnumerable<Movie> sort_all_movies_by_title_ascending
-    {
-      get { return sortBy((x, y) => x.title.CompareTo(y.title)); }
-    }
-
     public IEnumerable<Movie> sort_all_movies_by_movie_studio_and_year_published()
     {
       var rankings =
