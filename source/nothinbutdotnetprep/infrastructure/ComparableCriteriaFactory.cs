@@ -6,19 +6,16 @@ namespace nothinbutdotnetprep.infrastructure
     where PropertyType : IComparable<PropertyType>
 
   {
-    PropertyAccessor<ItemToFilter, PropertyType> accessor;
     ICreateSpecifications<ItemToFilter, PropertyType> original;
 
-    public ComparableCriteriaFactory(PropertyAccessor<ItemToFilter, PropertyType> accessor,
-                                     ICreateSpecifications<ItemToFilter, PropertyType> original)
+    public ComparableCriteriaFactory(ICreateSpecifications<ItemToFilter, PropertyType> original)
     {
-      this.accessor = accessor;
       this.original = original;
     }
 
     public IMatchAn<ItemToFilter> greater_than(PropertyType value)
     {
-      return create_using(x => accessor(x).CompareTo(value) > 0);
+      return create_using(x => Accessor(x).CompareTo(value) > 0);
     }
 
     public IMatchAn<ItemToFilter> equal_to(PropertyType value)
@@ -40,12 +37,17 @@ namespace nothinbutdotnetprep.infrastructure
     {
       return
         create_using(
-          x => accessor(x).CompareTo(start) >= 0 && accessor(x).CompareTo(end) <= 0);
+          x => Accessor(x).CompareTo(start) >= 0 && Accessor(x).CompareTo(end) <= 0);
     }
 
     public IMatchAn<ItemToFilter> create_using(Matches<ItemToFilter> condition)
     {
       return original.create_using(condition);
+    }
+
+    public PropertyAccessor<ItemToFilter, PropertyType> Accessor
+    {
+      get { return original.Accessor; }
     }
   }
 }
