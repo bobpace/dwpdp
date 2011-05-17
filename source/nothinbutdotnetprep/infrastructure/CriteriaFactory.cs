@@ -3,33 +3,35 @@ using System.Collections.Generic;
 
 namespace nothinbutdotnetprep.infrastructure
 {
-  public class CriteriaFactory<Item, PropertyType>
+  public interface ICriteriaFactory<ItemToFilter, PropertyType>
   {
-    PropertyAccessor<Item, PropertyType> accessor;
+    IMatchAn<ItemToFilter> equal_to(PropertyType value);
+    IMatchAn<ItemToFilter> equal_to_any(params PropertyType[] value);
+    IMatchAn<ItemToFilter> not_equal_to(PropertyType value);
+  }
 
-    public CriteriaFactory(PropertyAccessor<Item, PropertyType> accessor)
+  public class CriteriaFactory<ItemToFilter, PropertyType> : ICriteriaFactory<ItemToFilter, PropertyType>
+  {
+    PropertyAccessor<ItemToFilter, PropertyType> accessor;
+
+    public CriteriaFactory(PropertyAccessor<ItemToFilter, PropertyType> accessor)
     {
       this.accessor = accessor;
     }
 
-    public IMatchAn<Item> equal_to(PropertyType value)
+    public IMatchAn<ItemToFilter> equal_to(PropertyType value)
     {
       return equal_to_any(value);
     }
 
-    public IMatchAn<Item> equal_to_any(params PropertyType[] values)
+    public IMatchAn<ItemToFilter> equal_to_any(params PropertyType[] values)
     {
-      return new AnonymousCriteria<Item>(x => new List<PropertyType>(values).Contains(accessor(x)));
+      return new AnonymousCriteria<ItemToFilter>(x => new List<PropertyType>(values).Contains(accessor(x)));
     }
 
-    public IMatchAn<Item> not_equal_to(PropertyType value)
+    public IMatchAn<ItemToFilter> not_equal_to(PropertyType value)
     {
-      return new NegatingCriteria<Item>(equal_to(value));
-    }
-
-    public IMatchAn<Item> greater_than(PropertyType value)
-    {
-      throw new NotImplementedException();
+      return new NegatingCriteria<ItemToFilter>(equal_to(value));
     }
   }
 

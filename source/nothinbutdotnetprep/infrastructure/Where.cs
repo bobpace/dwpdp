@@ -11,7 +11,7 @@ namespace nothinbutdotnetprep.infrastructure
 
     public static ComparableCriteriaFactory<ItemToMatch, PropertyType> has_an<PropertyType>(PropertyAccessor<ItemToMatch, PropertyType> accessor) where PropertyType : IComparable<PropertyType>
     {
-      return new ComparableCriteriaFactory<ItemToMatch, PropertyType>(accessor);
+      return new ComparableCriteriaFactory<ItemToMatch, PropertyType>(accessor, new CriteriaFactory<ItemToMatch, PropertyType>(accessor));
     }
   }
 }
